@@ -6,6 +6,7 @@ import bg.softuni.mobilelele.model.entity.ModelEntity;
 import bg.softuni.mobilelele.repository.BrandRepository;
 import java.time.Instant;
 import java.util.List;
+import java.util.Scanner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
