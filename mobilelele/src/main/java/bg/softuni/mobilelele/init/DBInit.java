@@ -1,27 +1,53 @@
 package bg.softuni.mobilelele.init;
 
 import bg.softuni.mobilelele.model.entity.BrandEntity;
-import bg.softuni.mobilelele.model.entity.CategoryEnum;
+import bg.softuni.mobilelele.model.entity.UserEntity;
+import bg.softuni.mobilelele.model.entity.enums.CategoryEnum;
 import bg.softuni.mobilelele.model.entity.ModelEntity;
 import bg.softuni.mobilelele.repository.BrandRepository;
+import bg.softuni.mobilelele.repository.UserRepository;
 import java.time.Instant;
 import java.util.List;
-import java.util.Scanner;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DBInit implements CommandLineRunner {
 
   private final BrandRepository brandRepository;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-  public DBInit(BrandRepository brandRepository) {
+  public DBInit(BrandRepository brandRepository,
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder) {
     this.brandRepository = brandRepository;
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
   public void run(String... args) throws Exception {
+    initializeBrandAndModels();
+    initializeUsers();
 
+  }
+
+  private void initializeUsers() {
+    if (userRepository.count() == 0) {
+      UserEntity admin = new UserEntity();
+      admin.
+          setActive(true).
+          setUsername("admin").
+          setFirstName("Admin").setLastName("Adminov").
+          setPassword(passwordEncoder.encode("test"));
+
+      userRepository.save(admin);
+    }
+  }
+
+  private void initializeBrandAndModels() {
     if (brandRepository.count() == 0) {
       BrandEntity ford = new BrandEntity();
       ford.setName("Ford").setCreated(Instant.now());

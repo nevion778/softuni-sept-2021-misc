@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PostPersist;
+import javax.persistence.PrePersist;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -13,8 +15,6 @@ public abstract class BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  private String name;
 
   @Column(nullable = false)
   private Instant created;
@@ -48,4 +48,12 @@ public abstract class BaseEntity {
     return this;
   }
 
+  @PrePersist
+  public void beforeCreate() {
+    this.created = Instant.now();
+  }
+
+  @PostPersist void onUpdate() {
+    this.modified = Instant.now();
+  }
 }
