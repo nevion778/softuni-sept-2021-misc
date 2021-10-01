@@ -4,9 +4,8 @@ import bg.softuni.mobilelele.model.entity.UserEntity;
 import bg.softuni.mobilelele.model.service.UserLoginServiceModel;
 import bg.softuni.mobilelele.repository.UserRepository;
 import bg.softuni.mobilelele.service.UserService;
-
+import bg.softuni.mobilelele.user.CurrentUser;
 import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,13 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final CurrentUser currentUser;
 
     public UserServiceImpl(PasswordEncoder passwordEncoder,
-                           UserRepository userRepository) {
+        UserRepository userRepository, CurrentUser currentUser) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.currentUser = currentUser;
     }
 
     @Override
@@ -44,11 +45,28 @@ public class UserServiceImpl implements UserService {
                 userRepository.findByUsername(loginServiceModel.getUsername());
 
         if (userEntityOpt.isEmpty()) {
+            logout();
             return false;
         } else {
-            return passwordEncoder.matches(
+            boolean success = passwordEncoder.matches(
                     loginServiceModel.getRawPassword(),
                     userEntityOpt.get().getPassword());
+
+            if (success) {
+                UserEntity loggedInUser = userEntityOpt.get();
+                currentUser.
+                    setLoggedIn(true).
+                    setUserName(loggedInUser.getUsername()).
+                    setFirstName(loggedInUser.getFirstName()).
+                    setLastName(loggedInUser.getLastName());
+            }
+
+            return success;
         }
+    }
+
+    @Override
+    public void logout() {
+        currentUser.clean();
     }
 }
