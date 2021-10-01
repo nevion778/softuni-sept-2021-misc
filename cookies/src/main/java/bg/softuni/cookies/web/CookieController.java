@@ -27,7 +27,8 @@ public class CookieController {
 
 
   @PostMapping("/cookies")
-  public String submitCookies(@RequestParam String langFromHTMLForm,
+  public String submitCookies(
+      @RequestParam(name = "lang") String langFromHTMLForm,
       HttpServletResponse response) {
 
     Cookie langCookie = new Cookie(LANG_COOKIE_NAME, langFromHTMLForm);
