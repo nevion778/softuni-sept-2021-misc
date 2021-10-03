@@ -24,11 +24,4 @@ public class BrandServiceImpl implements BrandService {
         }
     }
 
-    @Override
-    public BrandEntity findByName(String name) {
-        return brandRepository
-                .findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("No brand with name " + name + " found!"));
-
-    }
 }

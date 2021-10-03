@@ -3,6 +3,7 @@ package bg.softuni.mobilelele.service.impl;
 import bg.softuni.mobilelele.model.entity.BrandEntity;
 import bg.softuni.mobilelele.model.entity.ModelEntity;
 import bg.softuni.mobilelele.model.entity.enums.CategoryEnum;
+import bg.softuni.mobilelele.repository.BrandRepository;
 import bg.softuni.mobilelele.repository.ModelRepository;
 import bg.softuni.mobilelele.service.BrandService;
 import bg.softuni.mobilelele.service.ModelService;
@@ -14,17 +15,18 @@ import java.util.List;
 public class ModelServiceImpl implements ModelService {
 
     private final ModelRepository modelRepository;
-    private final BrandService brandService;
+    private final BrandRepository brandRepository;
 
-    public ModelServiceImpl(ModelRepository modelRepository, BrandService brandService) {
+    public ModelServiceImpl(ModelRepository modelRepository, BrandRepository brandRepository) {
         this.modelRepository = modelRepository;
-        this.brandService = brandService;
+        this.brandRepository = brandRepository;
     }
 
     @Override
     public void initializeModels() {
 
-        BrandEntity ford = brandService.findByName("Ford");
+        BrandEntity ford = brandRepository.findByName("Ford")
+                .orElseThrow(IllegalArgumentException::new);
 
         ModelEntity fiesta = new ModelEntity();
         fiesta
