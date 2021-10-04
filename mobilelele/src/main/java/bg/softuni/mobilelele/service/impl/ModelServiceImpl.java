@@ -47,4 +47,9 @@ public class ModelServiceImpl implements ModelService {
 
         modelRepository.saveAll(List.of(fiesta, escort));
     }
+
+    @Override
+    public ModelEntity findById(Long id) {
+        return modelRepository.findById(id).orElse(null);
+    }
 }
