@@ -8,7 +8,7 @@ class MobileleleApplicationTests {
 
 	@Test
 	void contextLoads() {
-		// :-)
+		// :-(
 	}
 
 }
