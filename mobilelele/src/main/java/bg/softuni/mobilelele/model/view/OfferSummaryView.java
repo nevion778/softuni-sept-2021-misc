@@ -5,14 +5,24 @@ import bg.softuni.mobilelele.model.entity.enums.TransmissionEnum;
 
 public class OfferSummaryView {
 
+  private long id;
   private String description;
   private EngineEnum engine;
   private String imageUrl;
   private int mileage;
   private int price;
-  private TransmissionEnum transmissionEnum;
+  private TransmissionEnum transmission;
   private int year;
   private String model;
+
+  public long getId() {
+    return id;
+  }
+
+  public OfferSummaryView setId(long id) {
+    this.id = id;
+    return this;
+  }
 
   public String getDescription() {
     return description;
@@ -59,13 +69,13 @@ public class OfferSummaryView {
     return this;
   }
 
-  public TransmissionEnum getTransmissionEnum() {
-    return transmissionEnum;
+  public TransmissionEnum getTransmission() {
+    return transmission;
   }
 
-  public OfferSummaryView setTransmissionEnum(
-      TransmissionEnum transmissionEnum) {
-    this.transmissionEnum = transmissionEnum;
+  public OfferSummaryView setTransmission(
+      TransmissionEnum transmission) {
+    this.transmission = transmission;
     return this;
   }
 
