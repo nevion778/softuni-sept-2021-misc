@@ -133,6 +133,11 @@ public class UserServiceImpl implements UserService {
         login(newUser);
     }
 
+    public boolean isUserNameFree(String username) {
+        return userRepository.findByUsernameIgnoreCase(username).
+            isEmpty();
+    }
+
     private void login(UserEntity user) {
         currentUser.
             setLoggedIn(true).

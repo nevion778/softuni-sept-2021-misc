@@ -3,10 +3,14 @@ package bg.softuni.mobilelele.web;
 import bg.softuni.mobilelele.model.binding.UserRegistrationBindingModel;
 import bg.softuni.mobilelele.model.service.UserRegistrationServiceModel;
 import bg.softuni.mobilelele.service.UserService;
+import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserRegistrationController {
@@ -20,20 +24,40 @@ public class UserRegistrationController {
     this.modelMapper = modelMapper;
   }
 
+  @ModelAttribute("userModel")
+  public UserRegistrationBindingModel userModel() {
+    return new UserRegistrationBindingModel();
+  }
+
   @GetMapping("/users/register")
   public String registerUser() {
     return "auth-register";
   }
 
   @PostMapping("/users/register")
-  public String register(UserRegistrationBindingModel userModel) {
+  public String register(
+      @Valid UserRegistrationBindingModel userModel,
+      BindingResult bindingResult,
+      RedirectAttributes redirectAttributes) {
 
-    //TODO: validation
+    if (bindingResult.hasErrors()) {
+      redirectAttributes.addFlashAttribute("userModel", userModel);
+      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userModel", bindingResult);
+
+      return "redirect:/users/register";
+    }
 
     UserRegistrationServiceModel serviceModel =
         modelMapper.map(userModel, UserRegistrationServiceModel.class);
 
-    userService.registerAndLoginUser(serviceModel);
+    if (!userService.isUserNameFree(serviceModel.getUsername())) {
+      redirectAttributes.addFlashAttribute("userModel", userModel);
+      redirectAttributes.addFlashAttribute("userNameOccupied", true);
+
+      return "redirect:/users/register";
+    } else {
+      userService.registerAndLoginUser(serviceModel);
+    }
 
     return "redirect:/";
   }
