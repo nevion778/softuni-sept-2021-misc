@@ -1,7 +1,7 @@
 package bg.softuni.mobilelele.service;
 
-import bg.softuni.mobilelele.model.entity.UserEntity;
 import bg.softuni.mobilelele.model.service.UserLoginServiceModel;
+import bg.softuni.mobilelele.model.service.UserRegistrationServiceModel;
 
 public interface UserService {
 
@@ -11,5 +11,5 @@ public interface UserService {
 
   void logout();
 
-    UserEntity findByUsername(String username);
+  void registerAndLoginUser(UserRegistrationServiceModel userRegistrationServiceModel);
 }
