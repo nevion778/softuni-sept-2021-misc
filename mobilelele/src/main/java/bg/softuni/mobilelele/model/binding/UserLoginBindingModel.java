@@ -1,5 +1,8 @@
 package bg.softuni.mobilelele.model.binding;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UserLoginBindingModel {
 
   private String username;

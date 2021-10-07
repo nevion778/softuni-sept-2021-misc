@@ -43,10 +43,12 @@
                 <label for="lastName" class="text-white font-weight-bold">Last Name</label>
                 <input id="lastName"
                        name="lastName"
+                       th:field="*{lastName}"
+                       th:errorclass="is-invalid"
                        type="text" min="2" max="20" class="form-control"
                        placeholder="First name"/>
-                <p class="errors alert alert-danger">
-                    Last name is required.
+                <p class="invalid-feedback errors alert alert-danger">
+                    Last name is required and should be between 4 and 20 symbols.
                 </p>
             </div>
         </div>
@@ -55,9 +57,11 @@
                 <label for="username" class="text-white font-weight-bold">Username</label>
                 <input id="username"
                        name="username"
+                       th:field="*{username}"
+                       th:errorclass="is-invalid"
                        type="text" min="2" max="20" class="form-control"
                        placeholder="First name"/>
-                <p class="errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-danger">
                     Username is required.
                 </p>
             </div>
@@ -65,9 +69,11 @@
                 <label for="password" class="text-white font-weight-bold">Password</label>
                 <input id="password"
                        name="password"
+                       th:field="*{password}"
+                       th:errorclass="is-invalid"
                        type="password" min="2" max="20" class="form-control"
                        placeholder="Password"/>
-                <p class="errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-danger">
                     Password is required.
                 </p>
             </div>
