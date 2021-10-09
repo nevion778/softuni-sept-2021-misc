@@ -14,6 +14,7 @@ public class OfferSummaryView {
   private TransmissionEnum transmission;
   private int year;
   private String model;
+  private String brand;
 
   public long getId() {
     return id;
@@ -21,6 +22,15 @@ public class OfferSummaryView {
 
   public OfferSummaryView setId(long id) {
     this.id = id;
+    return this;
+  }
+
+  public String getBrand() {
+    return brand;
+  }
+
+  public OfferSummaryView setBrand(String brand) {
+    this.brand = brand;
     return this;
   }
 
